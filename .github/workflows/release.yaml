@@ -55,5 +55,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.RELEASE_TOKEN }}  # Needs to have Contents: read and write permission
           files: |
             *.xz
