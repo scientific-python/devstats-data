@@ -44,8 +44,8 @@ jobs:
       - name: Bundle queries
         shell: bash
         run: |
-          FILENAME=$ISODATE-devstats-queries.xz
-          tar cfJ queries.xz devstats/devstats/queries/*
+          FILENAME=$ISODATE-devstats-queries.tar.xz
+          tar cfJ $FILENAME --strip-components=3 devstats/devstats/queries/*
 
       - name: List all files
         shell: bash
