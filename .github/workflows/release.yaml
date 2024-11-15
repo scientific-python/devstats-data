@@ -44,8 +44,13 @@ jobs:
       - name: Bundle queries
         shell: bash
         run: |
-          FILENAME="$ISODATE-devstats-queries.xz"
+          FILENAME=$ISODATE-devstats-queries.xz
           tar cfJ queries.xz devstats/devstats/queries/*
+
+      - name: List all files
+        shell: bash
+        run: |
+          ls -R
 
       - name: Release
         uses: softprops/action-gh-release@v2
