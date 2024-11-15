@@ -53,6 +53,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ env.DATE }}
+          tag_name: ${{ env.DATE }}
           files: |
             *queries.xz
             devstats-scientific-python/*.xz
