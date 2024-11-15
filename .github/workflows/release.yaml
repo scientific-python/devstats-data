@@ -59,7 +59,7 @@ jobs:
       - name: Bundle queries
         shell: bash
         run: |
-          FILENAME=$ISODATE-devstats-queries.tar.xz
+          FILENAME=$ISODATE-queries.tar.xz
           tar cfJ $FILENAME --strip-components=3 devstats/devstats/queries/*
 
       - name: Release
