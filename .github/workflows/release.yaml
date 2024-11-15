@@ -37,6 +37,7 @@ jobs:
         run: |
           ISODATE=$(date +"%Y-%m-%d")
           echo "ISODATE=$ISODATE" >> $GITHUB_ENV
+          echo "QUERY_FILENAME=$ISODATE-queries.tar.xz" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
         with:
@@ -59,12 +60,18 @@ jobs:
       - name: Bundle queries
         shell: bash
         run: |
-          FILENAME=$ISODATE-queries.tar.xz
-          tar cfJ $FILENAME --strip-components=3 devstats/devstats/queries/*
+          tar cfJ $QUERY_FILENAME --strip-components=3 devstats/devstats/queries/*
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          body: |
+            This is the ${{ env.ISODATE }} snapshot of developer statistics for [Scientific Python](https://scientific-python.org) [core projects](https://scientific-python.org/specs/core-projects/).
+
+            You can generate a report from this data using [devstats](https://github.com/scientific-python/devstats).
+
+            `${{ env.QUERY_FILENAME }}` contains the queries used for this
+            release.
           tag_name: ${{ env.ISODATE }}
           files: |
             *.xz
