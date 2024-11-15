@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-  on:
-    schedule:
+  schedule:
     - cron: "0 1 * * 0"  # 01:00 on Sundays, https://crontab.guru/#0_1_*_*_0
 
 jobs:
