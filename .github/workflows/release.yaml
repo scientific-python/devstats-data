@@ -32,10 +32,6 @@ jobs:
         with:
           name: devstats-scientific-python
 
-      - name: Unpack artifact
-        shell: bash
-        run: unzip devstats-scientific-python.zip
-
       - uses: actions/checkout@v4
         with:
           repository: scientific-python/devstats
@@ -57,4 +53,5 @@ jobs:
         with:
           name: ${{ env.DATE }}
           files: |
-            *.xz
+            *queries.xz
+            devstats-scientific-python/*.xz
