@@ -39,14 +39,17 @@ jobs:
           echo "ISODATE=$ISODATE" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
+        with:
+          path: devstats-data
 
       - name: Push date as tag
         shell: bash
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git tag -a $ISODATE -m "Release $ISODATE"
-          git push origin $ISODATE
+        run: >-
+          (cd devstats-data &&
+           git config user.name github-actions &&
+           git config user.email github-actions@github.com &&
+           git tag -a $ISODATE -m "Release $ISODATE" &&
+           git push origin $ISODATE)
 
       - uses: actions/checkout@v4
         with:
