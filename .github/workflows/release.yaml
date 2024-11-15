@@ -14,15 +14,17 @@ jobs:
       - uses: stefanv/devstats-query-action@main
         with:
           repos: |
-            - numpy/numpy
-            - scipy/scipy
-            - matplotlib/matplotlib
-            - pandas-dev/pandas
-            - scikit-learn/scikit-learn
-            - scikit-image/scikit-image
-            - networkx/networkx
-            - astropy/astropy
-            - sunpy/sunpy
+            - scientific-python/spin
+            - scientific-python/lazy-loader
+            # - numpy/numpy
+            # - scipy/scipy
+            # - matplotlib/matplotlib
+            # - pandas-dev/pandas
+            # - scikit-learn/scikit-learn
+            # - scikit-image/scikit-image
+            # - networkx/networkx
+            # - astropy/astropy
+            # - sunpy/sunpy
           token: ${{ secrets.GITHUB_TOKEN }}
           artifact-name: devstats-scientific-python
 
