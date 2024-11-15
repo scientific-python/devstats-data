@@ -4,9 +4,11 @@ on: push
   # schedule:
   #   - cron: "0 1 * * 0"  # 01:00 on Sundays, https://crontab.guru/#0_1_*_*_0
 
+permissions:
+  contents: write  # to make release
+
 jobs:
   devstats-release:
-    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: stefanv/devstats-query-action@main
@@ -30,16 +32,26 @@ jobs:
         with:
           name: devstats-scientific-python
 
-      - uses: actions/checkout@v4
-        with:
-          repository: scientific-python/devstats
-          path: devstats
-
       - name: Set variables
         shell: bash
         run: |
           ISODATE=$(date +"%Y-%m-%d")
           echo "ISODATE=$ISODATE" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+
+      - name: Push date as tag
+        shell: bash
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -a $ISODATE -m "Release $ISODATE"
+          git push origin $ISODATE
+
+      - uses: actions/checkout@v4
+        with:
+          repository: scientific-python/devstats
+          path: devstats
 
       - name: Bundle queries
         shell: bash
@@ -47,14 +59,9 @@ jobs:
           FILENAME=$ISODATE-devstats-queries.tar.xz
           tar cfJ $FILENAME --strip-components=3 devstats/devstats/queries/*
 
-      - name: List all files
-        shell: bash
-        run: |
-          ls -R
-
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.RELEASE_TOKEN }}  # Needs to have Contents: read and write permission
+          tag_name: ${{ env.ISODATE }}
           files: |
             *.xz
