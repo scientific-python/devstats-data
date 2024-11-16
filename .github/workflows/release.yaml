@@ -35,7 +35,7 @@ jobs:
       - name: Set variables
         shell: bash
         run: |
-          ISODATE=$(date +"%Y-%m-%d")
+          ISODATE=$(TZ=US/Pacific date +"%Y-%m-%d")
           echo "ISODATE=$ISODATE" >> $GITHUB_ENV
           echo "QUERY_FILENAME=$ISODATE-queries.tar.xz" >> $GITHUB_ENV
 
