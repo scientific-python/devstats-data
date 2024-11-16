@@ -70,8 +70,7 @@ jobs:
 
             You can generate a report from this data using [devstats](https://github.com/scientific-python/devstats).
 
-            `${{ env.QUERY_FILENAME }}` contains the queries used for this
-            release.
+            `${{ env.QUERY_FILENAME }}` contains the queries used for this release.
           tag_name: ${{ env.ISODATE }}
           files: |
             *.xz
