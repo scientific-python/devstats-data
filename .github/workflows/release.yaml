@@ -9,27 +9,101 @@ permissions:
   contents: write  # to make release
 
 jobs:
-  devstats-release:
+  download-1:
     runs-on: ubuntu-latest
     steps:
       - uses: scientific-python/devstats-query-action@main
         with:
           repos: |
             - numpy/numpy
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-1
+          timezone: US/Pacific
+
+  download-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
             - scipy/scipy
-            - matplotlib/matplotlib
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-2
+          timezone: US/Pacific
+
+  download-3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
             - pandas-dev/pandas
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-3
+          timezone: US/Pacific
+
+  download-4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
             - scikit-learn/scikit-learn
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-4
+          timezone: US/Pacific
+
+  download-5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
+            - matplotlib/matplotlib
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-5
+          timezone: US/Pacific
+
+  download-6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
             - scikit-image/scikit-image
             - networkx/networkx
+          token: ${{ secrets.GRAPHQL_TOKEN }}
+          artifact-name: devstats-scientific-python-6
+          timezone: US/Pacific
+
+  download-7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: scientific-python/devstats-query-action@main
+        with:
+          repos: |
             - astropy/astropy
             - sunpy/sunpy
           token: ${{ secrets.GRAPHQL_TOKEN }}
-          artifact-name: devstats-scientific-python
+          artifact-name: devstats-scientific-python-7
+          timezone: US/Pacific
 
+  release:
+    needs:
+      - download-1
+      - download-2
+      - download-3
+      - download-4
+      - download-5
+      - download-6
+      - download-7
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/download-artifact@v4
         with:
-          name: devstats-scientific-python
+          pattern: devstats-scientific-python-*
+          merge-multiple: true
+          path: .
 
       - name: Set variables
         shell: bash
@@ -59,7 +133,7 @@ jobs:
       - name: Bundle queries
         shell: bash
         run: |
-          tar cfJ $QUERY_FILENAME --strip-components=3 devstats/devstats/queries/*
+          tar cfJ $QUERY_FILENAME -C ./devstats/devstats/queries .
 
       - name: Release
         uses: softprops/action-gh-release@v2
