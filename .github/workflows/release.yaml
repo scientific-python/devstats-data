@@ -4,6 +4,7 @@ on:
   push:
   schedule:
     - cron: "0 1 * * 0"  # 01:00 on Sundays, https://crontab.guru/#0_1_*_*_0
+  workflow_dispatch:
 
 permissions:
   contents: write  # to make release
