@@ -148,3 +148,10 @@ jobs:
           tag_name: ${{ env.ISODATE }}
           files: |
             *.xz
+
+      - name: Rebuild devstats.scientific-python.org
+        shell: bash
+        env:
+          NETLIFY_TRIGGER_URL: ${{ secrets.NETLIFY_TRIGGER_URL }}
+        run: |
+          curl -X POST -d {} "$NETLIFY_TRIGGER_URL"
