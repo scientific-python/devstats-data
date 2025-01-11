@@ -144,7 +144,16 @@ jobs:
 
             You can generate a report from this data using [devstats](https://github.com/scientific-python/devstats).
 
+            Reports for some key ecosystem packages are available at https://devstats.scientific-python.org
+
             `${{ env.QUERY_FILENAME }}` contains the queries used for this release.
           tag_name: ${{ env.ISODATE }}
           files: |
             *.xz
+
+      - name: Rebuild devstats.scientific-python.org
+        shell: bash
+        env:
+          NETLIFY_TRIGGER_URL: ${{ secrets.NETLIFY_TRIGGER_URL }}
+        run: |
+          curl -X POST -d {} "$NETLIFY_TRIGGER_URL"
